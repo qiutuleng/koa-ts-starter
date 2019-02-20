@@ -1,0 +1,26 @@
+{
+  "name": "koa-ts-starter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "tsc": "tsc -p tsconfig.json",
+    "watch-server": "nodemon --watch './**/*' -e ts,tsx --exec ts-node ./server.ts"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "koa": "^2.7.0",
+    "koa-router": "^7.4.0",
+    "mysql2": "^1.6.5",
+    "sequelize": "^4.42.0"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.0.48",
+    "@types/koa-router": "^7.0.39",
+    "nodemon": "^1.18.10",
+    "sequelize-typescript": "^0.6.7",
+    "ts-node": "^8.0.2",
+    "typescript": "^3.3.3"
+  }
+}
