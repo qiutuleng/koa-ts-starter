@@ -23,8 +23,8 @@ export default (app: Application) => {
 
     const config: { [propName: string]: any; } = Object.assign({}, defaultConfig, app.config.database);
 
-    if (config.logging === false) {
-        config.queryLog = null;
+    if (config.queryLog === false) {
+        config.logging = null;
     }
 
     app.sequelize = new Sequelize(config.database, config.username, config.password, config);
