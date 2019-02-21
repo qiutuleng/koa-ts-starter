@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as Sequelize from 'sequelize';
 import {Model} from 'sequelize';
+import * as _ from 'lodash';
 
 export default (app: Application) => {
     app.Sequelize = Sequelize;
@@ -10,11 +11,6 @@ export default (app: Application) => {
     const defaultConfig = {
         delegate: 'model',
         baseDir: 'model',
-        logging(...args: any[]) {
-            // if benchmark enabled, log used
-            const used = typeof args[1] === 'number' ? `(${args[1]}ms)` : '';
-            console.log('[egg-sequelize]%s %s', used, args[0]);
-        },
         host: 'localhost',
         port: 3306,
         username: 'root',
@@ -26,6 +22,10 @@ export default (app: Application) => {
     };
 
     const config: { [propName: string]: any; } = Object.assign({}, defaultConfig, app.config.database);
+
+    if (config.logging === false) {
+        config.queryLog = null;
+    }
 
     app.sequelize = new Sequelize(config.database, config.username, config.password, config);
 
@@ -47,7 +47,7 @@ export default (app: Application) => {
             }
             const model: Model<{}, {}> = caller(app);
 
-            models[model.name] = model;
+            models[_.upperFirst(_.camelCase(model.name))] = model;
         });
 
     app.models = models;

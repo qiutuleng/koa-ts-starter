@@ -10,8 +10,10 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@types/lodash": "^4.14.121",
     "koa": "^2.7.0",
     "koa-router": "^7.4.0",
+    "loadsh": "0.0.3",
     "mysql2": "^1.6.5",
     "sequelize": "^4.42.0"
   },
