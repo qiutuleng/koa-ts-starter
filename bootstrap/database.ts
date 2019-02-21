@@ -2,6 +2,7 @@ import Application from "../interfaces/Application";
 import * as fs from 'fs';
 import * as path from 'path';
 import * as Sequelize from 'sequelize';
+import {Model} from 'sequelize';
 
 export default (app: Application) => {
     app.Sequelize = Sequelize;
@@ -44,13 +45,19 @@ export default (app: Application) => {
                 // ES6 module compatibility
                 caller = caller.default;
             }
-            const model = caller(app);
+            const model: Model<{}, {}> = caller(app);
+
             models[model.name] = model;
         });
 
-    Object.keys(models).forEach((modelName:string) => {
+    app.models = models;
+
+    Object.keys(models).forEach((modelName: string) => {
         typeof models[modelName].associate === 'function' && models[modelName].associate();
     });
 
-    app.models = models;
+    app.use(async (ctx, next) => {
+        ctx.models = models;
+        await next()
+    });
 }
