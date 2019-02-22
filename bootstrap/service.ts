@@ -48,8 +48,6 @@ export default (app: Application) => {
     };
 
     app.use(async (ctx, next) => {
-        ctx.services = services;
-
         injectionToService(services, {ctx, services});
 
         await next();
