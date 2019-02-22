@@ -4,13 +4,10 @@ import * as path from 'path';
 import * as Sequelize from 'sequelize';
 import {Model} from 'sequelize';
 import * as _ from 'lodash';
+import {DatabaseConfig} from "../interfaces/Config";
 
 export default (app: Application) => {
-    app.Sequelize = Sequelize;
-
-    const defaultConfig = {
-        delegate: 'model',
-        baseDir: 'model',
+    const defaultConfig: DatabaseConfig = {
         host: 'localhost',
         port: 3306,
         username: 'root',
@@ -21,7 +18,12 @@ export default (app: Application) => {
         },
     };
 
-    const config: { [propName: string]: any; } = Object.assign({}, defaultConfig, app.config.database);
+    const config: DatabaseConfig = Object.assign({}, defaultConfig, app.config('database'));
+
+    // If the database is not enabled.
+    if (config.enable === false) return;
+
+    app.Sequelize = Sequelize;
 
     if (config.queryLog === false) {
         config.logging = null;

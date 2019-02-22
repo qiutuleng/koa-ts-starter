@@ -1,13 +1,13 @@
-export default {
-    http: {
-        hostname: '127.0.0.1',
-        port: 3000,
-    },
+import {DotenvParseOutput} from "dotenv";
+import {AppConfig} from "../interfaces/Config"
 
-    plugins: [
-        {
-            name: 'sequelize',
-            enabled: true,
-        }
-    ],
+export default (env: DotenvParseOutput) => {
+    const config: AppConfig = {};
+
+    config.http = {
+        hostname: env.HOSTNAME || '127.0.0.1',
+        port: env.PORT || 3000,
+    };
+
+    return config;
 };

@@ -3,9 +3,10 @@ import {Model, Sequelize, SequelizeStatic} from "sequelize";
 import Service from "./Service";
 import Controller from "./Controller";
 import * as Router from "koa-router";
+import {ConfigGetter} from "./Config";
 
 export default class Application extends Koa {
-    config: { [propName: string]: any; };
+    config: ConfigGetter;
     sequelize: Sequelize;
     Sequelize: SequelizeStatic;
     models: { [propName: string]: Model<{ [propName: string]: any; }, { [propName: string]: any; }> | any };
