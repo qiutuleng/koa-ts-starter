@@ -31,7 +31,7 @@ export default (app: Application) => {
                         get(target: any, key: PropertyKey): any {
                             return async (ctx: Context) => {
                                 target.setCtx(ctx);
-                                target.setServices(ctx.services);
+                                target.setServices(app.services);
                                 await target[key]();
                             }
                         }
