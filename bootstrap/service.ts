@@ -36,12 +36,13 @@ export default (app: Application) => {
 
     app.services = services;
 
-    const injectionContextToService = (service: Service | { [propName: string]: any }, ctx: Context) => {
+    const injectionToService = (service: Service | { [propName: string]: any }, ctx: Context, services: { [propName: string]: Service | any }) => {
         if (service instanceof Service) {
             service.setCtx(ctx);
+            service.setServices(services);
         } else {
             Object.keys(service).forEach(serviceName => {
-                injectionContextToService(service[serviceName], ctx);
+                injectionToService(service[serviceName], ctx, services);
             });
         }
     };
@@ -49,7 +50,7 @@ export default (app: Application) => {
     app.use(async (ctx, next) => {
         ctx.services = services;
 
-        injectionContextToService(ctx.services, ctx);
+        injectionToService(ctx.services, ctx, ctx.services);
 
         await next();
     });

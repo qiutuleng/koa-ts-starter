@@ -7,8 +7,8 @@ export default class Application extends Koa {
     config: { [propName: string]: any; };
     sequelize: Sequelize;
     Sequelize: SequelizeStatic;
-    models: { [propName: string]: Model<{ [propName: string]: any; }, { [propName: string]: any; }> };
-    services: { [propName: string]: Service; };
+    models: { [propName: string]: Model<{ [propName: string]: any; }, { [propName: string]: any; }> | any };
+    services: { [propName: string]: Service | { [propName: string]: any } };
 
     constructor() {
         super();
