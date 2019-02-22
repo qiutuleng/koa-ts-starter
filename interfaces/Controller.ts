@@ -15,7 +15,7 @@ export default class Controller {
         this.services = services;
     }
 
-    send(message: any, statusCode = 200, headers: { [propName: string]: string } = {}) {
+    send(message: any, statusCode = 200, headers: { [propName: string]: any } = {}) {
         const {ctx} = this;
 
         Object.keys(headers).forEach((headerName: string) => {
