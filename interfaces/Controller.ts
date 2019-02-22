@@ -14,4 +14,19 @@ export default class Controller {
     setServices(services: {}) {
         this.services = services;
     }
+
+    send(message: any, statusCode = 200, headers: { [propName: string]: string } = {}) {
+        const {ctx} = this;
+
+        Object.keys(headers).forEach((headerName: string) => {
+            ctx.set(headerName, headers[headerName]);
+        });
+
+        ctx.body = message;
+        ctx.status = statusCode;
+    }
+
+    sendError(message: any, statusCode = 422, headers: { [propName: string]: string } = {}) {
+        return this.send(message, statusCode, headers);
+    }
 }
