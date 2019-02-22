@@ -1,8 +1,7 @@
-import * as Router from 'koa-router';
-import HomeController from '../app/Http/Controllers/HomeController';
+import Application from "../interfaces/Application";
 
-const router = new Router();
+export default (app: Application) => {
+    const {controllers, router} = app;
 
-router.get('/', HomeController.home);
-
-export default router.routes();
+    router.get('/', controllers.HomeController.home);
+}
