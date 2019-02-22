@@ -1,9 +1,11 @@
 import Application from "../interfaces/Application";
+import request from './request';
 import database from './database';
 import service from './service';
 
 const app = new Application();
 
+request(app);
 database(app);
 service(app);
 
