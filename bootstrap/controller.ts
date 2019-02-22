@@ -29,10 +29,10 @@ export default (app: Application) => {
 
                     injection[controller.name] = new Proxy(new controller(app), {
                         get(target: any, key: PropertyKey): any {
-                            return (ctx: Context) => {
+                            return async (ctx: Context) => {
                                 target.setCtx(ctx);
                                 target.setServices(ctx.services);
-                                target[key]();
+                                await target[key]();
                             }
                         }
                     });
