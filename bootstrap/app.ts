@@ -1,4 +1,5 @@
 import Application from "../interfaces/Application";
+import config from './config';
 import request from './request';
 import database from './database';
 import controller from "./controller";
@@ -7,6 +8,7 @@ import service from './service';
 
 const app = new Application();
 
+config(app);
 request(app);
 database(app);
 service(app);

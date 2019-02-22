@@ -1,15 +1,21 @@
+import Application from "../interfaces/Application";
 import * as fs from 'fs';
 import * as path from 'path';
 
-const config: {[propName: string]: any;} = {};
+export default (app: Application) => {
+    const config: { [propName: string]: any; } = {};
 
-const configPath = '../config';
+    const configPath = path.resolve(__dirname, '../config');
 
-const result: string[] = fs.readdirSync(path.resolve(__dirname, configPath)).filter(path => path.split('.').pop() === 'ts');
+    const result: string[] = fs.readdirSync(configPath).filter(file => {
+        const stats = fs.lstatSync(`${configPath}/${file}`);
+        return file.indexOf('.') !== 0 && stats.isFile();
+    });
 
-for (const fileName of result) {
-    const itemConfig = require(`${configPath}/${fileName}`);
-    config[fileName.split('.').shift()] = itemConfig.default;
-}
+    for (const fileName of result) {
+        const itemConfig = require(`${configPath}/${fileName}`);
+        config[fileName.split('.').shift()] = itemConfig.default;
+    }
 
-export default config;
+    app.config = config;
+};
