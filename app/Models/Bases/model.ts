@@ -12,8 +12,9 @@ export default (
     attributes: DefineAttributes,
     options: DefineOptions = {},
 ) => {
-    // @ts-ignore
-    const model = app.sequelize.define(modelName, ...parse(app, attributes, options));
+    const {attributes: parsedAttribute, options: parsedOptions} = parse(app, attributes, options);
+
+    const model = app.sequelize.define(modelName, parsedAttribute, parsedOptions);
 
     if (options.autoPrimaryKey === false) {
         model.removeAttribute('id');
@@ -95,12 +96,12 @@ function parseOptions(options: DefineOptions = {}, sequelize: SequelizeStatic) {
     };
 }
 
-function parse({Sequelize}: Application, attributes: DefineAttributes, options: DefineOptions = {}): Array<object> {
-    return [
-        {
+function parse({Sequelize}: Application, attributes: DefineAttributes, options: DefineOptions = {}): { attributes:{ [propName: string]: any }, options:{ [propName: string]: any },} {
+    return {
+        attributes: {
             ...parseAttributes(attributes, Sequelize),
             ...getDefaultAttributes(options, Sequelize),
         },
-        parseOptions(options, Sequelize),
-    ];
+        options: parseOptions,
+    };
 }
