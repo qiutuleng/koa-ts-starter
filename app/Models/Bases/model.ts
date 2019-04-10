@@ -12,9 +12,9 @@ export default (
     attributes: DefineAttributes,
     options: DefineOptions = {},
 ) => {
-    const {attributes: parsedAttribute, options: parsedOptions} = parse(app, attributes, options);
+    const {attributes: parsedAttributes, options: parsedOptions} = parse(app, attributes, options);
 
-    const model = app.sequelize.define(modelName, parsedAttribute, parsedOptions);
+    const model = app.sequelize.define(modelName, parsedAttributes, parsedOptions);
 
     if (options.autoPrimaryKey === false) {
         model.removeAttribute('id');
@@ -102,6 +102,6 @@ function parse({Sequelize}: Application, attributes: DefineAttributes, options: 
             ...parseAttributes(attributes, Sequelize),
             ...getDefaultAttributes(options, Sequelize),
         },
-        options: parseOptions,
+        options: parseOptions(options, Sequelize),
     };
 }
